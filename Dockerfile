@@ -6,5 +6,6 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 
 ENV PORT 8080
-
-CMD ["python","script.py"]
+EXPOSE 8080
+ENTRYPOINT [ "python" ] 
+CMD [ "demo.py" ]
