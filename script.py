@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from math import sqrt
 import numpy as np
-from flask import Flask
+from flask import Flask, send_file
 
 app = Flask(__name__)
 
