@@ -10,11 +10,12 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route('/api',methods=['POST'])
+@app.route('/api')
 def predict():
 
 	# import data
 	df = pd.read_csv(r"Iris.csv")
+	print('9919818181')
 	
 	# dummify
 	df = pd.get_dummies(df, drop_first = True)
@@ -37,10 +38,9 @@ def predict():
 	# X_test["rmse"] = rmse
 	
 	# save output
-	resp = make_response(X_test.to_csv("iris_output.csv", index = False))
-	resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
-	resp.headers["Content-Type"] = "text/csv"
-	return resp
+	X_test.to_csv("iris_output.csv", index = False)
+	
+	return send_file('iris_output.csv',attachment_filename='test.csv')
 	
 if __name__ == '__main__':
     app.run(port=int(os.environ.get('PORT',8080)),host='0.0.0.0', debug=True)
