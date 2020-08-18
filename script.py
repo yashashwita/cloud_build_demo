@@ -35,7 +35,7 @@ X_test.to_csv("iris_output.csv", index = False)
 @app.route('/')
 def show():
 
-	return render_template('table.html',  tables=[X_test.to_html(classes='data')], titles=df.columns.values)
+	return render_template('tables.html',  tables=[X_test.to_html(classes='data')], titles=df.columns.values)
 
 
 @app.route('/download')
