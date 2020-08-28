@@ -1,0 +1,15 @@
+steps:
+- name: gcr.io/cloud-builders/git
+  args: ['clone', 'https://github.com/yashashwita/cloud_build_demo.git']
+  id: 'check-out-source-code'
+- name: gcr.io/cloud-builders/gsutil
+  args: ['cp', 'iris_raw.csv', 'gs://us-central1-test-551aac04-bucket/dags/data']
+  dir: 'cloud_build_demo/data'
+  id: 'deploy-input-file'
+- name: gcr.io/cloud-builders/gsutil
+  args: ['-m', 'cp', '-r', 'dag_example.py', 'gs://us-central1-test-551aac04-bucket/dags/']
+  dir: 'cloud_build_demo/'
+  id: 'deploy-dag-file'
+- name: 'gcr.io/cloud-builders/gsutil'  
+  args: ['-m', 'cp', '-r', 'dags/*', 'gs://<airflow bucket>/dags/']  
+  dir: 'airflow-dags'
