@@ -1,6 +1,6 @@
 steps:
 - name: gcr.io/cloud-builders/gsutil
-  args: ['cp', '*/iris_raw.csv', 'gs://us-central1-test-551aac04-bucket/dags/data']
+  args: ['cp', 'iris_raw.csv', 'gs://us-central1-test-551aac04-bucket/dags/data']
   dir: 'cloud_build_demo/data'
   id: 'deploy-input-file'
 - name: gcr.io/cloud-builders/gsutil
