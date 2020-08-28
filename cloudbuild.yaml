@@ -10,5 +10,3 @@ steps:
 - name: 'gcr.io/cloud-builders/gsutil'  
   args: ['-m', 'cp', '-r', 'dags/*', 'gs://<airflow bucket>/dags/']  
   dir: 'airflow-dags'
-  
-  git@github.com:yashashwita/cloud_build_demo.git
