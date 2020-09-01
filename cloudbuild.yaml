@@ -6,3 +6,8 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:${SHORT_SHA}"]
     id: Push-preprocess
+    
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _GCR_HOSTNAME: us.gcr.io
