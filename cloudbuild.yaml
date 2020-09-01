@@ -1,7 +1,7 @@
 steps:
 - name: gcr.io/cloud-builders/git
   args: ['clone', 'https://github.com/yashashwita/cloud_build_demo']
-  id: ['test1']
+  id: 'test1'
 - name: gcr.io/cloud-builders/gsutil
   args: ['ls']
   id: 'test'
