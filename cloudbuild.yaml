@@ -1,4 +1,7 @@
 steps:
+- name: gcr.io/cloud-builders/git
+  args: ['clone', 'https://github.com/yashashwita/cloud_build_demo.git']
+  id: 'clone repository'
 - name: gcr.io/cloud-builders/gsutil
   args: ['-m', 'cp', '-r', 'data/Iris_raw.csv', 'gs://us-central1-test-551aac04-bucket/dags/data']
   id: 'deploy-input-file'
