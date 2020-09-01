@@ -1,10 +1,10 @@
 steps:
 - name: gcr.io/cloud-builders/git
   args: ['clone', 'https://github.com/yashashwita/cloud_build_demo.git']
-  id: 'test1'
+  id: 'clone repository'
 - name: gcr.io/cloud-builders/gsutil
-  args: ['ls']
-  id: 'test'
+  args: ['-m', 'cp', '-r', 'requirements.txt', 'gs://us-central1-test2-61381588-bucket/']
+  id: 'copy req file'
 - name: gcr.io/cloud-builders/gsutil
   args: ['cp', 'iris_raw.csv', 'gs://us-central1-test-551aac04-bucket/dags/data']
   dir: 'cloud_build_demo/data'
