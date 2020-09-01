@@ -11,13 +11,11 @@ steps:
       - '-f'
       - Dockerfile
     id: Build-preprocess
-	
   - name: gcr.io/cloud-builders/docker
     args:
       - push
       - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:$COMMIT_SHA'
     id: Push-preprocess
-	
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -30,13 +28,11 @@ steps:
       - '-f'
       - Dockerfile
     id: Build-feature_engineering
-	
   - name: gcr.io/cloud-builders/docker
     args:
       - push
       - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/feature_engineering:$COMMIT_SHA'
     id: Push-feature_engineering
-	
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -49,13 +45,11 @@ steps:
       - '-f'
       - Dockerfile
     id: Build-model
-	
   - name: gcr.io/cloud-builders/docker
     args:
       - push
       - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/model:$COMMIT_SHA'
     id: Push-model
-
 images:
   - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:$COMMIT_SHA'
   - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/feature_engineering:$COMMIT_SHA'
