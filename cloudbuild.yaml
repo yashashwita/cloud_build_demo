@@ -1,6 +1,6 @@
 steps:
 - name: gcr.io/cloud-builders/git
-  args: ['clone', 'https://source.cloud.google.com/hulproject-271714/github_yashashwita_cloud_build_demo']
+  args: ['clone', 'https://github.com/yashashwita/cloud_build_demo.git']
   id: 'test1'
 - name: gcr.io/cloud-builders/gsutil
   args: ['ls']
