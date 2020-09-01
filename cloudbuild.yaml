@@ -1,11 +1,24 @@
 steps:
   - name: gcr.io/cloud-builders/docker
-    args:
-      ["build", "-t", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:${SHORT_SHA}", "--target","preprocess","."]
-    id: Build-preprocess
+    args: ["build", "-t", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:${SHORT_SHA}", "--target","preprocess","."]
+    id: Build-Preprocess-Docker
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:${SHORT_SHA}"]
-    id: Push-preprocess
+    id: Push-Preprocess-Docker
+  - name: gcr.io/cloud-builders/docker
+    args:
+      ["build", "-t", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/feature_engineering:${SHORT_SHA}", "--target","feature_engineering","."]
+    id: Build-FeatureEngineering-Docker
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/feature_engineering:${SHORT_SHA}"]
+    id: Push-FeatureEngineering-Docker
+  - name: gcr.io/cloud-builders/docker
+    args:
+      ["build", "-t", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/model:${SHORT_SHA}", "--target","preprocess","."]
+    id: Build-Model-Docker
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/model:${SHORT_SHA}"]
+    id: Push-Model-Docker
     
 options:
   substitutionOption: ALLOW_LOOSE
