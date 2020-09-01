@@ -1,14 +1,62 @@
 steps:
-- name: gcr.io/cloud-builders/git
-  args: ['clone', 'https://github.com/yashashwita/cloud_build_demo.git']
-  id: 'clone repository'
-- name: gcr.io/cloud-builders/gsutil
-  args: ['-m', 'cp', '-r', 'data/Iris_raw.csv', 'gs://us-central1-test-551aac04-bucket/dags/data']
-  id: 'deploy-input-file'
-- name: gcr.io/cloud-builders/gsutil
-  args: ['-m', 'cp', '-r', 'dag_example.py', 'gs://us-central1-test-551aac04-bucket/dags/']
-  dir: 'cloud_build_demo/'
-  id: 'deploy-dag-file'
-- name: gcr.io/cloud-builders/gcloud
-  args: ['composer', 'environments', 'run', 'test', '--location', 'us-central1', 'trigger_dag', '--', 'dag_example', '--run_id=$BUILD_ID']
-  id: 'trigger-pipeline-execution'
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:$COMMIT_SHA'
+      - '--target'
+      - 'preprocess'
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build-preprocess
+	
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:$COMMIT_SHA'
+    id: Push-preprocess
+	
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/feature_engineering:$COMMIT_SHA'
+      - '--target'
+      - 'feature_engineering'
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build-feature_engineering
+	
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/feature_engineering:$COMMIT_SHA'
+    id: Push-feature_engineering
+	
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/model:$COMMIT_SHA'
+      - '--target'
+      - 'model'
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build-model
+	
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/model:$COMMIT_SHA'
+    id: Push-model
+
+images:
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/preprocess:$COMMIT_SHA'
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/feature_engineering:$COMMIT_SHA'
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/model:$COMMIT_SHA'
